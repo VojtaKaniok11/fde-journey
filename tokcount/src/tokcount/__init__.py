@@ -19,12 +19,16 @@ def check(
         raise typer.Exit(code=1)
 
     in_tokens = count_tokens(text, model=model)
-    cost = estimate_cost(in_tokens, output_tokens, model=model)
+    estimate = estimate_cost(in_tokens, output_tokens, model=model)
 
-    typer.echo(f"Model:          {model}")
-    typer.echo(f"Vstupní tokeny: {in_tokens}")
-    typer.echo(f"Výstupní (odhad): {output_tokens}")
-    typer.secho(f"Odhadovaná cena: ${cost:.6f}", fg=typer.colors.GREEN, bold=True)
+    typer.echo(f"Model:            {estimate.model}")
+    typer.echo(f"Vstupní tokeny:   {estimate.input_tokens}")
+    typer.echo(f"Výstupní (odhad): {estimate.output_tokens}")
+    typer.secho(
+        f"Odhadovaná cena:  ${estimate.total_cost_usd:.6f}",
+        fg=typer.colors.GREEN,
+        bold=True,
+    )
 
 
 def main() -> None:
